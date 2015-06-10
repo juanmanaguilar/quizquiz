@@ -6,7 +6,7 @@ var titController = require('../controllers/tit_controller')
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Quiz' });
+  res.render('index', { title: 'Quiz', errors: [] });
 });
 
 // GET de /author
