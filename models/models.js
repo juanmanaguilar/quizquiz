@@ -24,9 +24,20 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 							  	storage: 	storage, //solo SQLite (.env)
 							  	omitNull: 	true     //Solo Postgres 
 							});
-// Inportar de finición de tabla Quiz en quiz.js
+// Inportar definición de tabla Quiz en quiz.js
 var Quiz = sequelize.import(path.join(__dirname,'quiz'));
-exports.Quiz = Quiz; //exportar definición de tabla Quiz
+
+// Importar definición de tabla Comment en comment.js
+var comment_path = path.join(__dirname,'comment');
+var Comment = sequelize.import(comment_path);
+
+// Definir relacion 1-a-N
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
+//exportar definición de tablas Quiz y Comment
+exports.Quiz = Quiz; 
+exports.Comment = Comment;
 
 //sequelize.sync() crea e inicializa la tabla en BBDD
 sequelize.sync().then(function(){

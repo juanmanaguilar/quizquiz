@@ -1,5 +1,6 @@
 
 <table>
+<th>Pregunta</th><th>Tema</th>
 <% var i;
 	for (i = 0 ; i < quizes.length; i++) { %>
 			<tr>
@@ -13,9 +14,9 @@
 				</td>
 			</tr>
 <%	} %>
-</table>
+</table><br>
 <form method="get" action="/quizes">
-	<p>Busqueda: </p>
+	<p>Busqueda:
 	<input type="text" name="search" placeholder="Texto a buscar" />
 	<input type="submit" value="Enviar" />
 </form>

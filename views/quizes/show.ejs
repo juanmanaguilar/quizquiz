@@ -1,5 +1,15 @@
+	<!-- formulario de respuesta -->
 	<form method="get" action="/quizes/<%= quiz.id %>/answer">
 		<p>Pregunta: <%= quiz.pregunta %> </p>
 		<input type="text" name="respuesta" placeholder="Responda aquí" />
 		<input type="submit" value="Enviar" />
 	</form>
+	
+	<!--  enlace a formurario para nuevo comentario -->
+	<p><a href="/quizes/<%= quiz.id %>/comments/new?pregunta=<%=quiz.pregunta%>"><button>Nuevo comentario</button></a></p>
+
+	<!-- lista de comentarios -->
+	<p><strong>Comentarios:</strong></p>
+	<% for ( index in quiz.Comments ) { %>
+		<p>- <%= quiz.Comments[index].texto %> </p>
+	<% } %>
