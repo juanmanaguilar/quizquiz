@@ -4,6 +4,7 @@ var router = express.Router();
 var quizController = require('../controllers/quiz_controller');
 var titController = require('../controllers/tit_controller');
 var commentController = require('../controllers/comment_controller');
+var sessionController = require('../controllers/session_controller');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -15,6 +16,12 @@ router.get('/author', titController.author);
 
 //Autoload de comandos con :quizId
 router.param('quizId', quizController.load);
+
+//Definición de rutas de sesion
+router.get('/login', 		sessionController.new);
+router.post('/login',		sessionController.create);
+router.get('/logout',		sessionController.destroy); //esto funciona pero deberia ser router.delete
+//router.delete('/logout',		sessionController.destroy);
 
 //Rutas de quizes
 router.get('/quizes',						quizController.index);
