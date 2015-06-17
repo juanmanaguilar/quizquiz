@@ -5,6 +5,7 @@ exports.loginRequired = function (req, res, next) {
 		res.redirect('/login');
 	}
 };
+
 //GET /login -- Formulario de login
 exports.new = function(req, res){
 	var errors = req.session.errors || {};
@@ -28,16 +29,17 @@ exports.create = function(req, res){
 		//Crear req.session.user y guardar campos id y username
 		//La sesion se define por la existencia de: req.session.user
 		req.session.user = { id: user.id, username: user.username };
-
-		res.redirect(req.session.redir.toString()); // Redireccion a path anterior a login //En teoría porque se va al /login
+		//Establecemos hora de expiración en milisegundos
+		req.session.horaExpira = (new Date()).getTime() + 30000;
+		// Redireccion a path anterior a login
+		res.redirect(req.session.redir.toString()); 
 	});
 };
 
 //DELETE /logout -- Destruir sesion
 exports.destroy = function (req, res) {
+	var pathAnterior = req.session.redir.toString(); //Guarda el path antes de cerrar la sesion 
 	delete req.session.user;
-	var pathAnterior = req.session.redir.toString();
-	res.redirect('login'); //He puesto que vuelva al login porque me da un error de demasiadas redirecciones que no he sabido resolver
-//	res.redirect(req.session.redir.toString()); // Redireccion a path anterior a login/logout
-//	res.redirect(pathAnterior);
+	res.redirect(pathAnterior); // Funciona con logout, pero cuando se pulsa un enlace y la sesion ha expirado hay que recargar
+								// si el enlace pulsado es loginRquired primero va a login y despues al path anterior
 };

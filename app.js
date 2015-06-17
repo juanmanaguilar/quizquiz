@@ -32,9 +32,14 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Helpers dinamicos
+
 app.use(function(req, res, next){
+    // si no existe lo inicializa -> Antes de poner esto decia que habia un bucle de redirecionamiento
+    if (!req.session.redir) {
+      req.session.redir = '/';
+    }
     //guardar path en session.redir para despues de login
-    if (!req.path.match(/\/login | \/logout/)){
+    if (!req.path.match(/\/login|\/logout/)) {
         req.session.redir = req.path;
     }
     // Hacer visible req.session en las vistas
@@ -42,8 +47,22 @@ app.use(function(req, res, next){
     next();
 });
 
-app.use('/', routes);
+app.use(function(req, res, next){
+    var tiempoMaxInactivo = 30000;
+    if (req.session.user) {  //Si se ha iniciado sesion comprobamos que no ha expirado
+        if (req.session.horaExpira > (new Date()).getTime()) { // Si no ha expirado Actualizamos hora de expiracion
+            req.session.horaExpira = (new Date()).getTime() + tiempoMaxInactivo; 
+            next();
+        } else {
+            req.session.destroy();  // Si la sesion ha expirado la cerramos
+        }
+    } else {
+        console.log("Sesion no iniciada");
+        next(); // Si no había sesion iniciada no hacemos nada
+    }
+});
 
+app.use('/', routes);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
