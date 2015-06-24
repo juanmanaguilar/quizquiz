@@ -5,6 +5,7 @@ var quizController = require('../controllers/quiz_controller');
 var titController = require('../controllers/tit_controller');
 var commentController = require('../controllers/comment_controller');
 var sessionController = require('../controllers/session_controller');
+var statisticsController = require('../controllers/statistics_controller.js');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -23,6 +24,9 @@ router.get('/login', 		sessionController.new);
 router.post('/login',		sessionController.create);
 router.get('/logout',		sessionController.destroy); //esto funciona pero deberia ser router.delete
 //router.delete('/logout',		sessionController.destroy);
+
+router.get('/quizes/statistics',			statisticsController.show);
+//router.get('/quizes/statistics',			statisticsController.statistics);
 
 //Rutas de quizes
 router.get('/quizes',						quizController.index);

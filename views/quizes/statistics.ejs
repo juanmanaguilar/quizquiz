@@ -1,0 +1,19 @@
+<h4>Estadisticas</h4>
+<dl>
+	<dt><b>Nº de preguntas:</b></dt>
+		<dd>
+			<%= statistics.totalQuiz %>
+		</dd>
+	<dt><b>Nº de comentarios publicados:</b></dt>
+		<dd>
+			<%= statistics.totalComment %>
+		</dd>
+	<dt><b>Media de comentarios por pregunta:</b></dt>
+		<dd>
+			<%= (statistics.totalComment / statistics.totalQuiz) %>
+		</dd>
+	<dt><b>Preguntas con comentarios:</b></dt>
+		<dd>
+			<%= statistics.preCon %>
+		</dd>	
+</dl>
